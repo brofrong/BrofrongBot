@@ -2,10 +2,13 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const token = require("./TOKEN.json")
 const Commands = require('./commands');
-
+const Segeza = require('./text/segezaFromArmy');
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
+
+  SegezaFromArmy(client);
+
 });
 
 client.on('message', msg => {
@@ -20,6 +23,15 @@ client.on('message', msg => {
         Commands['help'](client,msg);
     }
 });
+
+
+ function SegezaFromArmy(bot){
+    var channels = bot.channels;
+    general = channels.find(function(channel){
+        return (channel.id == "95448882745454592")
+    });
+    Segeza.comeBackSegeza(general);
+};
 
 function parseMessage(message){
     const parts = message.content.split(' ');
