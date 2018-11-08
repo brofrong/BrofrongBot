@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const fs = require('fs');
 
 module.exports.comeBackSegeza =  function(general){
     const backFromArmy = new Date('2019-11-01');
@@ -7,6 +8,9 @@ module.exports.comeBackSegeza =  function(general){
     var daysLeft = Math.floor(sLeft/86400000);
     var hourseLeft = Math.floor(sLeft/3600000);
     var minutesLeft = Math.floor(sLeft/60000);
+
+    var imgs = fs.readdirSync("/home/brofrong-home/prog/discord/BrofrongBot/img");
+    imgToDraw = imgs[Math.floor(Math.random()*imgs.length%imgs.length)];
 
     general.fetchMessages({limit:50})
     .then(messages => {
@@ -21,7 +25,7 @@ module.exports.comeBackSegeza =  function(general){
             var embed = new Discord.RichEmbed()
             .setTitle("Серёжа вернётся!")
             .setColor("#ff0000")
-            .setImage("http://brofrong.tk/imgs/segeza.jpg")
+            .setImage("http://brofrong.tk/imgs/"+imgToDraw)
             .addField("дней осталось",daysLeft)
             .addField("часов осталось",hourseLeft)
             .addField("минут осталось",minutesLeft);
@@ -31,6 +35,3 @@ module.exports.comeBackSegeza =  function(general){
 
     setTimeout(module.exports.comeBackSegeza,3600000,general);
 }
-
-
-//comeBackSegeza();

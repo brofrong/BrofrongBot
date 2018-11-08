@@ -1,4 +1,7 @@
 const Discord = require('discord.js');
+const fs = require('fs');
+
+
 
 
 module.exports.help = function(bot,msg){
@@ -24,12 +27,33 @@ module.exports.SFA = function(bot,msg){
     var hourseLeft = Math.floor(sLeft/3600000);
     var minutesLeft = Math.floor(sLeft/60000);
 
+    var imgs = fs.readdirSync("/home/brofrong-home/prog/discord/BrofrongBot/img");
+    imgToDraw = imgs[Math.floor(Math.random()*imgs.length%imgs.length)];
+
+
     var embed = new Discord.RichEmbed()
             .setTitle("Серёжа вернётся!")
             .setColor("#ff0000")
-            .setImage("http://brofrong.tk/imgs/segeza.jpg")
+            .setImage("http://brofrong.tk/imgs/"+imgToDraw)
             .addField("дней осталось",daysLeft)
             .addField("часов осталось",hourseLeft)
             .addField("минут осталось",minutesLeft);
             msg.reply(embed);
 }
+
+module.exports.play = function(bot,msg,url){
+    if(!url){
+        msg.reply("укажите URL");
+        return 0;
+    }
+    var voiceChannel =  msg.member.voiceChannel;
+    voiceChannel.join()
+    .then(connection => {console.log("connected")
+        const stream = ytdl('https://www.youtube.com/watch?v=lTTajzrSkCw', { filter : 'audioonly' });
+        broadcast.playStream(stream);
+        const dispatcher = connection.playBroadcast(broadcast);
+        broadcast.end(()=> voiceChannel.leave());
+    })
+    .catch(console.error);
+}
+
